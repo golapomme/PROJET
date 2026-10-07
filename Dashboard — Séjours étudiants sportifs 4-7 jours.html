@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dashboard — Séjours étudiants sportifs 4-7 jours</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#f6f7f9;--card:#fff;--tx:#1b2330;--mu:#667085;--bd:#e3e6ec;--ac:#1f6feb;--ok:#0f7b4b;--okb:#dcf5e8;--es:#8a5a00;--esb:#fdf0cf;--hy:#5b36b8;--hyb:#ebe3fb;--mq:#b42318;--mqb:#fde4e1}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#111418;--card:#1a1f26;--tx:#e8ecf2;--mu:#98a2b3;--bd:#2c333d;--ac:#5b9bff;--ok:#5fd39b;--okb:#12382a;--es:#f0c35a;--esb:#3a2e0e;--hy:#b79cff;--hyb:#2c2150;--mq:#ff8b80;--mqb:#4a1c18}}
+:root[data-theme="dark"]{--bg:#111418;--card:#1a1f26;--tx:#e8ecf2;--mu:#98a2b3;--bd:#2c333d;--ac:#5b9bff;--ok:#5fd39b;--okb:#12382a;--es:#f0c35a;--esb:#3a2e0e;--hy:#b79cff;--hyb:#2c2150;--mq:#ff8b80;--mqb:#4a1c18}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:14px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{padding:16px 18px 0}h1{font-size:19px;margin:0}header p{margin:2px 0 10px;color:var(--mu);font-size:12.5px}
+nav{display:flex;gap:6px;overflow-x:auto;padding:0 18px 10px;position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);z-index:5}
+nav button{border:1px solid var(--bd);background:var(--card);color:var(--tx);padding:7px 12px;border-radius:20px;cursor:pointer;white-space:nowrap;font-size:13px}
+nav button.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+main{padding:6px 18px 30px;max-width:1150px;margin:auto}section{display:none}section.on{display:block}
+.g{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));margin-bottom:14px}
+.k,.c{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:12px 14px}
+.k b{display:block;font-size:22px;margin:2px 0}.k small,.c small,.n{color:var(--mu);font-size:12px}
+.c{margin-bottom:14px}.c h3{margin:0 0 8px;font-size:14px}.two{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(310px,1fr))}
+.b{display:inline-block;font-size:10.5px;font-weight:700;padding:1px 7px;border-radius:10px;letter-spacing:.3px;white-space:nowrap}
+.FAIT{background:var(--okb);color:var(--ok)}.ESTIMATION{background:var(--esb);color:var(--es)}.HYPOTHÈSE{background:var(--hyb);color:var(--hy)}.MANQUANT{background:var(--mqb);color:var(--mq)}
+.w{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:12.5px}th,td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--bd);vertical-align:top}th{color:var(--mu);font-weight:600;position:sticky;top:0;background:var(--card)}
+select,input{background:var(--card);color:var(--tx);border:1px solid var(--bd);border-radius:6px;padding:5px 7px;font-size:13px}
+.f{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;align-items:center}.f label{font-size:12px;color:var(--mu)}
+.cv{position:relative;height:280px}.hm td{text-align:center;font-weight:600}
+button{background:var(--card);color:var(--tx);border:1px solid var(--bd);border-radius:6px;padding:5px 10px;cursor:pointer;font-size:12.5px}
+#tl input,#tl select{padding:3px 5px;font-size:12px}.f label{display:flex;flex-direction:column;gap:2px}textarea{width:100%;height:110px;background:var(--card);color:var(--tx);border:1px solid var(--bd);border-radius:6px;font:11.5px monospace}
+</style></head><body>
+<header><h1>Séjours étudiants sportifs, ludiques et expérientiels · 4 à 7 jours</h1>
+<p>Dashboard analytique — base : étude de marché (oct. 2026) + base Excel prestataires d'immersion. <span class="b FAIT">FAIT</span> <span class="b ESTIMATION">ESTIMATION</span> <span class="b HYPOTHÈSE">HYPOTHÈSE</span> <span class="b MANQUANT">DONNÉE MANQUANTE</span></p></header>
+<nav id="nav"></nav>
+<main>
+<section id="s0"><div class="g" id="kp"></div>
+<div class="two"><div class="c"><h3>Moteurs possibles (structure du concept) <span class="b HYPOTHÈSE">HYPOTHÈSE</span></h3><ul class="n" style="margin:0;padding-left:18px;line-height:1.7">
+<li>Pratique sportive élevée chez les 15-24 ans <span class="b FAIT">FAIT</span></li><li>Recherche de plaisir dans le sport (17 %) <span class="b FAIT">FAIT</span></li><li>Dimension collective proche des usages BDE/BDS</li><li>Contenu photo/vidéo généré par les activités</li><li>Diversité des territoires (littoral, montagne, eaux vives, lacs)</li></ul></div>
+<div class="c"><h3>Freins possibles <span class="b HYPOTHÈSE">HYPOTHÈSE</span></h3><ul class="n" style="margin:0;padding-left:18px;line-height:1.7">
+<li>Budget étudiant limité et hétérogène</li><li>Coût de l'encadrement, du matériel, des remontées</li><li>Niveaux sportifs différents dans un même groupe</li><li>Aléa météo (surf, kite, neige, canyon, voile)</li><li>Temps de transport depuis les grands bassins étudiants</li><li>Image « trop sportive » pour les non-pratiquants</li></ul></div></div>
+<div class="two"><div class="c"><h3>Prix observés — €/jour/participant</h3><div class="cv"><canvas id="ch0"></canvas></div></div>
+<div class="c"><h3>Concepts par famille de milieu</h3><div class="cv"><canvas id="ch1"></canvas></div></div></div></section>
+
+<section id="s1"><div class="g">
+<div class="k"><small>Étudiants du supérieur 2025-26</small><b>3,05 M</b><span class="b FAIT">FAIT</span> <small>SIES, juil. 2026</small></div>
+<div class="k"><small>Évolution sur 1 an</small><b>+1,1 %</b><span class="b FAIT">FAIT</span></div>
+<div class="k"><small>À l'université</small><b>1,67 M</b><span class="b FAIT">FAIT</span> <small>≈ 55 % <span class="b ESTIMATION">ESTIMATION</span></small></div>
+<div class="k"><small>Part du privé</small><b>25,8 %</b><span class="b FAIT">FAIT</span> <small>≈ 0,79 M <span class="b ESTIMATION">ESTIMATION</span></small></div>
+<div class="k"><small>Projection ~2030</small><b>&gt; 3,15 M</b><span class="b FAIT">FAIT</span></div>
+<div class="k"><small>Pratique régulière 15-24 ans</small><b>72 %</b><span class="b FAIT">FAIT</span> <small>INJEP 2024</small></div></div>
+<div class="two"><div class="c"><h3>Motif principal de pratique, 15-29 ans (%) <span class="b FAIT">FAIT</span></h3><div class="cv"><canvas id="ch2"></canvas></div><p class="n">Le baromètre ne mesure pas l'intérêt pour des vacances sportives payantes.</p></div>
+<div class="c"><h3>Tourisme domestique (Atout France 2024) <span class="b FAIT">FAIT</span></h3><div class="cv"><canvas id="ch3"></canvas></div><p class="n">Part d'intention de départ été 2024 ; occupation montagne fin 2024 ; hausse nuitées locatives. Non isolable pour les étudiants.</p></div></div>
+<div class="c"><h3>Données marché absentes</h3><p class="n">Répartition par type d'établissement (commerce, ingénieurs, IAE) <span class="b MANQUANT">DONNÉE MANQUANTE</span> · répartition géographique / villes étudiantes <span class="b MANQUANT">DONNÉE MANQUANTE</span> · budget loisirs/vacances étudiant <span class="b MANQUANT">DONNÉE MANQUANTE</span> · fréquence de départ <span class="b MANQUANT">DONNÉE MANQUANTE</span> · taille de la cible adressable <span class="b MANQUANT">DONNÉE MANQUANTE</span></p></div></section>
+
+<section id="s2"><div class="c"><h3>Acteurs identifiés <span class="b FAIT">FAIT</span> (offre publique consultée oct. 2026)</h3><div class="w"><table id="tc"></table></div></div>
+<div class="two"><div class="c"><h3>Sport × fête <span class="b ESTIMATION">ESTIMATION</span></h3><div class="cv"><canvas id="ch4"></canvas></div><p class="n">Échelle 1-5 construite par lecture qualitative des mentions de l'étude (« fort », « très fort », « variable »…). Pas une mesure.</p></div>
+<div class="c"><h3>Prix €/jour/participant (base homogène)</h3><div class="w"><table id="tp"></table></div><p class="n">Prix total ÷ nombre de jours annoncé. Nuits ≠ jours : une offre « 7 j / 6 nuits » est comptée sur 7 jours. Contenus inclus non identiques.</p></div></div></section>
+
+<section id="s3"><div class="c"><h3>Banque de <span id="cn"></span> concepts <span class="b FAIT">FAIT</span> (étude §11 — niveaux relatifs, non classés)</h3>
+<div class="f"><label>Milieu <select id="fm"></select></label><label>Météo <select id="fw"></select></label><label>Coût relatif <select id="fc"></select></label><label>Recherche <input id="fq" placeholder="mot-clé"></label></div>
+<div class="w" style="max-height:430px;overflow:auto"><table id="tk"></table></div></div>
+<div class="c"><h3>Croisement : dépendance météo × coût relatif (nombre de concepts)</h3><div class="w"><table id="hm" class="hm"></table></div><p class="n">Regroupements météo/coût fournis par l'étude ; aucun prix d'activité chiffré dans l'étude pour les concepts sportifs <span class="b MANQUANT">DONNÉE MANQUANTE</span>.</p></div></section>
+
+<section id="s4"><div class="c"><h3>Modèle de coût théorique <span class="b HYPOTHÈSE">HYPOTHÈSE</span></h3><p class="n">Aucun coût réel n'est fourni dans l'étude. Les valeurs de départ ci-dessous sont des placeholders arbitraires à remplacer par vos devis.</p>
+<div class="f" id="ep"></div></div>
+<div class="two"><div class="c"><h3>Coût / personne (€) — et par jour/pers.</h3><div class="w"><table id="te"></table></div></div>
+<div class="c"><h3>Participants → coût moyen par participant</h3><div class="cv"><canvas id="ch5"></canvas></div><p class="n">Les paliers viennent des postes à effet de seuil (cars, encadrants) et du fixe réparti.</p></div></div></section>
+
+<section id="sim"><div class="c"><h3>Simulateur de séjour <span class="b HYPOTHÈSE">HYPOTHÈSE</span></h3>
+<p class="n">Tous les prix sont des valeurs de départ arbitraires, modifiables ligne par ligne : aucun tarif réel n'est fourni dans les fichiers. Destination et mois sont de simples étiquettes (aucune base de prix par destination) <span class="b MANQUANT">DONNÉE MANQUANTE</span>.</p>
+<div class="f" id="pf"></div><div class="f"><button id="bs">Sauvegarder dans le comparateur</button><button id="bd">Dupliquer le projet</button></div></div>
+<div class="g" id="sk"></div>
+<div class="two"><div class="c"><h3>Répartition des coûts</h3><div class="cv"><canvas id="sp"></canvas></div></div><div class="c"><h3>Coût par catégorie</h3><div class="cv"><canvas id="sb"></canvas></div></div>
+<div class="c"><h3>Du chiffre d'affaires à la marge</h3><div class="cv"><canvas id="sw"></canvas></div></div><div class="c"><h3>Taux de remplissage</h3><div class="cv" style="height:200px"><canvas id="sg"></canvas></div><p class="n" id="sgt"></p></div>
+<div class="c"><h3>Participants → coût / participant</h3><div class="cv"><canvas id="sc"></canvas></div></div><div class="c"><h3>Participants → CA et marge</h3><div class="cv"><canvas id="sm"></canvas></div></div></div>
+<div class="two"><div class="c"><h3>Prix de vente nécessaire selon la marge cible</h3><div class="w"><table id="t1"></table></div></div><div class="c"><h3>Scénarios (remplissage)</h3><div class="w"><table id="t2"></table></div></div></div>
+<div class="c"><h3>Postes de coût — activer/désactiver, modifier prix, quantités, devis</h3><div class="w"><table id="tl"></table></div>
+<div class="f" style="margin-top:8px"><select id="ac"></select><button id="ab">+ Ajouter une ligne</button></div></div>
+<div class="c"><h3>Fiche synthèse / devis simulé et export</h3><textarea id="x1" readonly></textarea><div class="f"><button id="c1">Copier la fiche</button></div><textarea id="x2" readonly></textarea><div class="f"><button id="c2">Copier le CSV</button></div><p class="n">Le téléchargement direct (PDF, Excel) n'est pas disponible dans une page publiée : le CSV copié s'ouvre dans Excel (séparateur « ; »).</p></div></section>
+<section id="cmp"><div class="c"><h3>Comparateur de simulations</h3><p class="n">Sauvegarde depuis le simulateur ; la colonne « en cours » reflète le projet affiché. Mémorisation locale au navigateur si disponible.</p><div class="w"><table id="tcm"></table></div></div></section>
+
+<section id="s5"><div class="c"><h3>Données manquantes</h3><div class="w"><table id="tm"></table></div></div>
+<div class="c"><h3>Hypothèses présentes dans le projet</h3><div class="w"><table id="th"></table></div></div>
+<div class="two"><div class="c"><h3>Cadre réglementaire (extrait de l'étude §14) <span class="b FAIT">FAIT</span></h3><div class="w"><table id="tr"></table></div><p class="n">L'étude précise ne pas constituer un avis juridique ; le détail dépend du montage de vente.</p></div>
+<div class="c"><h3>Points d'attention dans les données</h3><ul class="n" style="padding-left:18px;line-height:1.7;margin:0">
+<li>La base Excel porte sur l'immersion agro-pastorale/ostréicole (12 prestataires, 5 régions) : aucun prestataire sportif.</li>
+<li>Offres Amanins et Cascades visent adultes/familles, pas des groupes étudiants ; tarif Cascades à 30 €/j avec hébergement rustique.</li>
+<li>UCPA « dès 385 € » : durée non précisée, donc €/jour non calculable.</li>
+<li>Decathlon Surf &amp; Yoga : 322 € promo vs 379 € barré.</li>
+<li>Étude : « aucun prix cible » et aucune donnée de demande payante.</li></ul></div></div></section>
+</main>
+<script>
+const $=id=>document.getElementById(id),B=(t,l)=>`<span class="b ${t}">${l||t}</span>`;
+const tabs=["Synthèse","Marché","Concurrence & prix","Concepts","Économie","Simulateur","Comparateur","Manques & hypothèses"];
+$("nav").innerHTML=tabs.map((t,i)=>`<button data-i="${i}">${t}</button>`).join("");
+function show(i){document.querySelectorAll("section").forEach((s,j)=>s.classList.toggle("on",i==j));document.querySelectorAll("nav button").forEach((b,j)=>b.classList.toggle("on",i==j))}
+$("nav").onclick=e=>{if(e.target.dataset.i)show(+e.target.dataset.i)};show(0);
+const tx=getComputedStyle(document.documentElement).getPropertyValue("--mu")||"#667085";Chart.defaults.color=tx.trim();Chart.defaults.maintainAspectRatio=false;
+const col=["#1f6feb","#0f9d6b","#e0a100","#8e5bd6","#e5484d","#12a4b6"];
+// ---- données
+const P=[["WEI IAE Lyon 2026",3,185,185,"Car, bungalow, repas, activités, soirées","FAIT","S4"],["WEI « socle » Funbreak",3,140,180,"Transport 300 km, héberg., repas, sécurité, animation","FAIT","S3"],["UCPA Surf Lacanau 18-25",7,560,560,"Surf, héberg., repas, encadrement, matériel","FAIT","S5"],["UCPA séjours 18-30 (dès)",7,629,629,"Durée « souvent 7 j » (non confirmée)","ESTIMATION","S5"],["UCPA 18-25 nouveautés été (dès)",null,385,385,"Durée variable non précisée","MANQUANT","S5"],["Decathlon Surf & Yoga",7,322,379,"Séjour sportif en groupe (promo / barré)","FAIT","S6"],["Decathlon Surf + VAE Landes",4,464,464,"Surf + vélo électrique","FAIT","S6"],["Amanins — été (adultes/familles)",6,442.5,550,"Pension complète, ateliers ferme","FAIT","xlsx F010"],["Amanins — Bayard Jeunesse",6,625,625,"Pension complète, famille","FAIT","xlsx F014"],["Amanins — hiver",5,369,369,"Pension complète","FAIT","xlsx F013"],["Ferme des Cascades — vacances actives",4,120,120,"30 €/j, repas inclus, héberg. rustique (≥ 4 j)","FAIT","xlsx F001"]];
+const A=[["Funbreak","Direct","funbreak.fr","WEI, ski, city trips, WED",3,5],["Insane Trip","Direct","insane-trip.com","WEI/WED, ski, city trips",3,4],["TweakEvents","Direct","tweakevents.com","WEI, ski, capitales",3,4],["VoyagesEtudiants.com","Direct","voyagesetudiants.com","WEI, ski, voyages groupes",3,3],["BDE en direct","Direct","—","WEI, ski, voyages promo",2,4],["UCPA","Indirect","ucpa.com","Séjours sportifs 18-25 / 18-30",5,2],["Decathlon Travel","Indirect","decathlontravel.com","Voyages sportifs 4-7 j+",5,2],["Écoles / clubs locaux","Indirect","—","Stages mono-activité",4,1]];
+const K=`Surf Camp|Océan|Surf + prépa physique + beach games|4-7 j|Élevée|Moyen|Oui
+Longboard Camp|Océan|Longboard + surf culture|4-6 j|Élevée|Moyen|Oui
+Bodyboard Camp|Océan|Bodyboard + beach games|4-6 j|Élevée|Moyen|Oui
+Kite Camp|Littoral|Kitesurf + théorie vent|4-7 j|Très élevée|Élevé|Oui, sous conditions
+Wingfoil Camp|Littoral / lac|Wingfoil + paddle|4-7 j|Très élevée|Élevé|Oui
+Wake Camp|Lac / base nautique|Wakeboard + wakeskate + paddle|4-6 j|Moyenne|Élevé|Oui
+Sailing Camp|Mer / lac|Voile + régate|4-7 j|Moyenne|Élevé|Oui
+Catamaran Camp|Mer|Catamaran + régate|4-7 j|Moyenne|Élevé|Oui
+Coastal Kayak Camp|Littoral|Kayak de mer + exploration|4-6 j|Moyenne|Moyen|Oui
+Paddle Camp|Lac / littoral|SUP + randonnée nautique|4-5 j|Moyenne|Faible à moyen|Oui
+Raft Camp|Montagne / rivière|Rafting + eaux vives|4-6 j|Élevée|Moyen à élevé|Oui
+Canyoning Camp|Montagne|Canyoning + randonnée|4-6 j|Élevée|Élevé|Oui
+Hydrospeed Camp|Rivière|Hydrospeed + rafting|4-5 j|Élevée|Élevé|Oui
+Whitewater Camp|Rivière|Kayak eau vive + rafting|5-7 j|Élevée|Élevé|Progressif
+Mountain Camp|Montagne|Randonnée + orientation + expériences locales|4-7 j|Moyenne|Faible à moyen|Oui
+Trail Camp|Montagne / nature|Trail + mobilité + récupération|4-7 j|Moyenne|Faible à moyen|Selon niveau
+Via Ferrata Camp|Montagne|Via ferrata + randonnée + escalade|4-6 j|Moyenne|Moyen|Oui
+Climbing Camp|Falaise / bloc|Escalade + bloc|4-7 j|Faible à moyenne|Moyen|Oui
+Bouldering Camp|Forêt / salle|Bloc + challenges|4-6 j|Faible|Faible à moyen|Oui
+VTT Camp|Montagne / forêt|VTT descente / XC|4-7 j|Moyenne|Élevé|Selon parcours
+Bikepacking Camp|Itinérance|Vélo + étapes + bivouac|4-7 j|Moyenne|Moyen|Selon niveau
+Road Cycling Camp|Montagne / campagne|Cols + sorties route|4-7 j|Moyenne|Moyen|Plutôt initiés
+Ski Camp|Montagne hiver|Ski + challenges|4-7 j|Élevée|Très élevé|Oui
+Snowboard Camp|Montagne hiver|Snowboard + progression|4-7 j|Élevée|Très élevé|Oui
+Snow Multisport Camp|Montagne hiver|Ski/snow + luge + raquettes|4-7 j|Élevée|Élevé|Oui
+Raquettes & Refuge|Montagne hiver|Raquettes + refuge + orientation|4-6 j|Élevée|Moyen|Oui
+Ski de fond Camp|Montagne hiver|Ski nordique + biathlon ludique|4-6 j|Élevée|Moyen|Oui
+Adventure Camp|Nature|Orientation + accrobranche + défis|4-7 j|Moyenne|Moyen|Oui
+Survival / Bivouac Camp|Nature|Bivouac + orientation|4-6 j|Moyenne|Faible à moyen|Oui
+Orienteering Camp|Nature|Course d'orientation + raids|4-5 j|Faible à moyenne|Faible|Oui
+Obstacle Camp|Nature / site aménagé|Parcours d'obstacles + relais|4-5 j|Moyenne|Moyen|Oui
+Caving Camp|Karst / montagne|Spéléologie + randonnée|4-5 j|Faible à moyenne|Élevé|Oui
+Horse Trek Camp|Campagne / montagne|Équitation + randonnée|4-7 j|Moyenne|Élevé|Oui
+Lake Games Camp|Lac|Paddle + kayak + beach games|4-6 j|Moyenne|Moyen|Oui
+Beach Sports Camp|Littoral|Beach volley/rugby/ultimate|4-6 j|Moyenne|Faible à moyen|Oui
+Multi-Glisse Camp|Littoral|Surf + bodyboard + paddle + skate|5-7 j|Élevée|Moyen à élevé|Oui
+Outdoor Fitness Camp|Nature / littoral|Fitness + running + jeux|4-6 j|Faible|Faible|Oui
+Rowing Camp|Lac / rivière calme|Aviron + fitness|4-6 j|Moyenne|Élevé|Oui
+Triathlon Discovery Camp|Lac / littoral|Natation + vélo + course|4-7 j|Moyenne|Moyen|Progressif
+Adventure Race Camp|Nature|Raid multisport|4-7 j|Moyenne à élevée|Moyen à élevé|Selon format
+Nature Games Camp|Campagne|Olympiades outdoor + orientation|4-5 j|Faible à moyenne|Faible|Oui
+Winter Adventure Camp|Montagne hiver|Raquettes + luge + refuge|4-6 j|Élevée|Moyen|Oui
+Surf & Yoga Camp|Littoral|Surf + yoga + mobilité|4-7 j|Élevée|Moyen|Oui
+Climb & Hike Camp|Montagne|Randonnée + escalade + via ferrata|4-7 j|Moyenne|Moyen|Oui
+Paddle & Yoga Camp|Lac / littoral|SUP + yoga + jeux|4-5 j|Moyenne|Faible à moyen|Oui
+River Adventure Camp|Rivière|Raft + canyon + hydrospeed|4-6 j|Élevée|Élevé|Oui
+Alpine Discovery Camp|Montagne|Randonnée + via ferrata + culture|5-7 j|Moyenne|Moyen|Oui
+Atlantic Discovery Camp|Littoral|Surf + beach sports + vélo|5-7 j|Élevée|Moyen|Oui
+Mediterranean Water Camp|Méditerranée|Paddle + kayak + voile|5-7 j|Moyenne|Moyen à élevé|Oui
+Island Sports Camp|Île|Vélo + kayak + randonnée|5-7 j|Moyenne|Moyen|Oui`.split("\n").map(l=>l.split("|"));
+const MW=["Faible","Faible à moyenne","Moyenne","Moyenne à élevée","Élevée","Très élevée"],MC=["Faible","Faible à moyen","Moyen","Moyen à élevé","Élevé","Très élevé"];
+const fam=m=>/Mon|Falaise|Karst/.test(m)?"Montagne":/Océan|Litt|^Mer|Médit|Île/.test(m)?"Mer & littoral":/Lac|Rivi/.test(m)?"Eau douce":"Nature & campagne";
+// ---- synthèse
+const jp=P.filter(p=>p[1]).map(p=>[p[0],p[2]/p[1],p[3]/p[1]]);
+const four=P.filter(p=>p[1]&&p[1]>=4&&p[1]<=7);
+const mn=Math.min(...four.map(p=>p[2])),mx=Math.max(...four.map(p=>p[3]));
+$("kp").innerHTML=[["Étudiants (France)","3,05 M","FAIT"],["Cible pertinente","?","MANQUANT"],["Concepts identifiés",K.length,"FAIT"],["Durée","4 à 7 j","FAIT"],["Prix 4-7 j observés",`${mn}–${mx} €`,"FAIT"],["Concurrents / substituts",A.length,"FAIT"],["Destinations sportives","?","MANQUANT"],["Prestataires immersion (xlsx)","12 · 5 rég.","FAIT"]].map(k=>`<div class="k"><small>${k[0]}</small><b>${k[1]}</b>${B(k[2])}</div>`).join("");
+new Chart($("ch0"),{type:"bar",data:{labels:jp.map(j=>j[0]),datasets:[{label:"€/jour (min–max)",data:jp.map(j=>[+j[1].toFixed(1),+j[2].toFixed(1)]),backgroundColor:col[0]}]},options:{indexAxis:"y",plugins:{legend:{display:false}},scales:{y:{ticks:{font:{size:10}}}}}});
+const fc={};K.forEach(k=>{const f=fam(k[1]);fc[f]=(fc[f]||0)+1});
+new Chart($("ch1"),{type:"doughnut",data:{labels:Object.keys(fc),datasets:[{data:Object.values(fc),backgroundColor:col}]}});
+// ---- marché
+new Chart($("ch2"),{type:"bar",data:{labels:["Santé","Plaisir / amusement","Contact nature","Performance","Risque / sensations"],datasets:[{data:[22,17,11,9,5],backgroundColor:col[1]}]},options:{plugins:{legend:{display:false}}}});
+new Chart($("ch3"),{type:"bar",data:{labels:["Intention départ été 2024","Occup. montagne fin 2024","Hausse nuitées locatives"],datasets:[{data:[74,85,12.5],backgroundColor:col[2]}]},options:{plugins:{legend:{display:false}},scales:{y:{title:{display:true,text:"%"}}}}});
+// ---- concurrence
+$("tc").innerHTML="<tr><th>Nom</th><th>Catégorie</th><th>URL</th><th>Offre visible</th><th>Prix min/max</th><th>Transport · héberg. · restauration · encadrement</th></tr>"+A.map(a=>`<tr><td>${a[0]}</td><td>${a[1]}</td><td>${a[2]}</td><td>${a[3]}</td><td>${B("MANQUANT","hors WEI")}</td><td>${B("MANQUANT")}</td></tr>`).join("");
+new Chart($("ch4"),{type:"scatter",data:{datasets:[...A.map((a,i)=>({label:a[0],data:[{x:a[5],y:a[4]}],backgroundColor:col[i%6],pointRadius:8})),{label:"Concept analysé",data:[{x:2,y:5}],backgroundColor:"#e5484d",pointStyle:"triangle",pointRadius:10}]},options:{plugins:{legend:{labels:{boxWidth:8,font:{size:10}}}},scales:{x:{min:0,max:6,title:{display:true,text:"Orientation fête (1-5)"}},y:{min:0,max:6,title:{display:true,text:"Orientation sport (1-5)"}}}}});
+$("tp").innerHTML="<tr><th>Produit</th><th>Jours</th><th>Prix €</th><th>€/jour/pers.</th><th>Statut</th></tr>"+P.map(p=>`<tr><td>${p[0]}<br><small class="n">${p[4]} · ${p[6]}</small></td><td>${p[1]||"—"}</td><td>${p[2]}${p[3]!=p[2]?"–"+p[3]:""}</td><td>${p[1]?(p[2]/p[1]).toFixed(0)+(p[3]!=p[2]?"–"+(p[3]/p[1]).toFixed(0):""):"—"}</td><td>${B(p[5])}</td></tr>`).join("");
+// ---- concepts
+const opt=(el,arr)=>$(el).innerHTML='<option value="">Tous</option>'+arr.map(x=>`<option>${x}</option>`).join("");
+opt("fm",Object.keys(fc));opt("fw",MW);opt("fc",MC);$("cn").textContent=K.length;
+function rk(){const m=$("fm").value,w=$("fw").value,c=$("fc").value,q=$("fq").value.toLowerCase();
+const r=K.filter(k=>(!m||fam(k[1])==m)&&(!w||k[4]==w)&&(!c||k[5]==c)&&(!q||k.join(" ").toLowerCase().includes(q)));
+$("tk").innerHTML="<tr><th>Concept</th><th>Milieu</th><th>Activité dominante</th><th>Durée</th><th>Météo</th><th>Coût rel.</th><th>Débutants</th></tr>"+r.map(k=>"<tr>"+k.map(x=>`<td>${x}</td>`).join("")+"</tr>").join("")+`<tr><td colspan="7" class="n">${r.length} concept(s)</td></tr>`}
+["fm","fw","fc","fq"].forEach(i=>$(i).oninput=rk);rk();
+$("hm").innerHTML="<tr><th>Météo ↓ / Coût →</th>"+MC.map(c=>`<th>${c}</th>`).join("")+"</tr>"+MW.map(w=>`<tr><th>${w}</th>`+MC.map(c=>{const n=K.filter(k=>k[4]==w&&k[5]==c).length;return `<td style="background:rgba(31,111,235,${Math.min(n/6,1)*.55})">${n||""}</td>`}).join("")+"</tr>").join("");
+// ---- économie
+const D={hb:30,rp:20,ac:35,bus:2200,st:120,as:8,fx:1500};
+const L={hb:"Hébergement €/pers/nuit",rp:"Repas €/pers/jour",ac:"Activités €/pers/jour",bus:"Car A/R € (50 places)",st:"Encadrant €/jour (1 pour 25)",as:"Assurance+imprévus %",fx:"Frais fixes €/séjour"};
+$("ep").innerHTML=Object.keys(D).map(k=>`<label>${L[k]} <input type="number" id="e_${k}" value="${D[k]}" style="width:78px"></label>`).join("")+" "+B("HYPOTHÈSE","valeurs arbitraires");
+const cost=(n,j)=>{const g=k=>+$("e_"+k).value||0;const b=Math.ceil(n/50)*g("bus"),s=Math.ceil(n/25)*g("st")*j,v=n*(g("hb")*(j-1)+(g("rp")+g("ac"))*j);return (b+s+v+g("fx"))*(1+g("as")/100)/n};
+function eco(){const N=[20,25,30,50,75,100],J=[4,5,6,7];
+$("te").innerHTML="<tr><th>Participants</th>"+J.map(j=>`<th>${j} jours</th>`).join("")+"</tr>"+N.map(n=>`<tr><td>${n}</td>`+J.map(j=>{const c=cost(n,j);return `<td>${c.toFixed(0)} € <small class="n">(${(c/j).toFixed(0)}/j)</small></td>`}).join("")+"</tr>").join("");
+const x=[];for(let n=20;n<=100;n+=5)x.push(n);
+if(window.c5)c5.destroy();window.c5=new Chart($("ch5"),{type:"line",data:{labels:x,datasets:J.map((j,i)=>({label:j+" jours",data:x.map(n=>+cost(n,j).toFixed(0)),borderColor:col[i],tension:0,pointRadius:2}))},options:{scales:{y:{title:{display:true,text:"€ / participant"}},x:{title:{display:true,text:"Participants"}}}}})}
+document.querySelectorAll("#ep input").forEach(i=>i.oninput=eco);eco();
+// ---- manques
+const M=[["Part d'étudiants intéressés par le format","Non","—","—","Critique"],["Budget maximal accepté","Non","—","—","Critique"],["Conversion selon le prix","Non","—","—","Critique"],["Intérêt BDE/BDS pour ce format","Non","—","—","Critique"],["Durée préférée (4 / 5 / 7 j)","Non","—","—","Haute"],["Sport / univers le plus attractif","Non","—","—","Haute"],["Part souhaitant une soirée","Non","—","—","Haute"],["Tolérance à l'hébergement simple","Non","—","—","Haute"],["Distance maximale acceptable","Non","—","—","Haute"],["Prix des activités sportives (session, forfait groupe)","Non","—","—","Haute"],["Distances, temps et coût de transport depuis les villes étudiantes","Non","—","—","Haute"],["Capacités d'hébergement groupes par destination","Quasi non (72 lits Amanins)","xlsx","Faible","Haute"],["Effectifs par type d'établissement","Partiel (univ. 1,67 M ; privé 25,8 %)","SIES S1","Élevée","Haute"],["Répartition géographique, villes étudiantes","Non","—","—","Moyenne"],["Budget étudiant (loisirs, vacances)","Non","—","—","Haute"],["Prix catalogue des agences étudiantes hors WEI","Partiel (WEI 140-180 €)","Funbreak S3","Moyenne","Moyenne"],["Taux d'annulation météo / de remplissage","Non","—","—","Moyenne"],["Réachat / recommandation","Non","—","—","Moyenne"],["Benchmark international","Non","—","—","Moyenne"]];
+$("tm").innerHTML="<tr><th>Donnée</th><th>Disponible ?</th><th>Source</th><th>Fiabilité</th><th>Importance</th></tr>"+M.map(m=>`<tr><td>${m[0]}</td><td>${m[1]=="Non"?B("MANQUANT","Non"):m[1]}</td><td>${m[2]}</td><td>${m[3]}</td><td>${m[4]}</td></tr>`).join("");
+const H=[["Les étudiants veulent moins de séjours centrés uniquement sur la fête","Positionnement"],["Le budget étudiant permet des activités encadrées sur 4-7 j","Concept §1"],["Les débutants sont un public suffisant pour ces séjours","Concept §1"],["Les BDE/BDS sont des prescripteurs intéressés par ce format","Étude §16"],["La fête secondaire reste acceptable pour la cible","Concept §1"],["Il existe une demande payante pour le croisement étudiant + sport + 4-7 j","Étude §7, §16"],["Une offre à hébergement simple est tolérée","Étude §16"]];
+$("th").innerHTML="<tr><th>Hypothèse</th><th>Origine</th><th>Statut</th></tr>"+H.map(h=>`<tr><td>${h[0]}</td><td>${h[1]}</td><td>${B("HYPOTHÈSE","À VALIDER")}</td></tr>`).join("");
+$("tr").innerHTML="<tr><th>Sujet</th><th>Organisme</th><th>Impact</th></tr>"+[["Immatriculation opérateur de voyages et séjours","Atout France","Selon montage de vente"],["Garantie financière","Atout France","Condition d'immatriculation"],["RC professionnelle","Atout France","Exigée à l'immatriculation"],["Éducateurs sportifs : qualification + carte pro","Ministère des Sports","Par activité encadrée"]].map(r=>`<tr>${r.map(x=>`<td>${x}</td>`).join("")}</tr>`).join("");
+// ===== SIMULATEUR
+const CT=["Transport","Hébergement","Restauration","Activités","Options","Staff","Assurance & frais"],TY={p:"€/participant",g:"€/groupe",s:"€/staff"};
+const MO=["Janv.","Févr.","Mars","Avr.","Mai","Juin","Juil.","Août","Sept.","Oct.","Nov.","Déc."],ZN=["Atlantique","Méditerranée","Alpes","Pyrénées","Jura","Vosges","Bretagne","Normandie","Massif Central","Lac / base nautique","Autre"];
+const mkL=()=>`0|Transport principal (car A/R)|1|g|2200|1
+0|Transfert gare → hébergement|0|g|300|1
+0|Déplacements pendant le séjour|0|g|250|1
+1|Hébergement (prix/nuit/logement)|1|g|70|h
+1|Taxe de séjour (pers./nuit)|1|p|0.9|n
+1|Draps|1|p|12|1
+1|Ménage|1|g|150|1
+2|Petit-déjeuner|1|p|6|d
+2|Déjeuner|0|p|11|d
+2|Dîner|1|p|12|d
+2|Snacks|0|p|2|d
+2|Boissons|0|p|3|d
+2|Pique-nique|0|p|7|1
+3|Activité principale — séance 1|1|p|35|1
+3|Activité principale — séance 2|1|p|35|1
+3|Activité principale — séance 3|0|p|35|1
+3|Beach games (forfait groupe)|1|g|150|1
+3|Activité forfait groupe (ex. rafting)|0|g|1200|1
+4|Photographe|0|g|400|1
+4|Vidéaste|0|g|500|1
+4|Drone|0|g|200|1
+4|GoPro (location)|0|g|150|1
+4|T-shirt|1|p|8|1
+4|Sweat|0|p|22|1
+4|Bracelet|0|p|1|1
+4|Goodies|0|p|3|1
+4|Soirée|1|g|600|1
+4|DJ|0|g|350|1
+4|Location de salle|0|g|300|1
+4|Photobooth|0|g|300|1
+4|Animateur|0|g|250|1
+4|Sécurité|0|g|200|1
+4|Assurance complémentaire|0|p|4|1
+4|Navettes|0|g|300|1
+4|Guide|0|g|250|1
+4|Moniteur supplémentaire|0|g|400|1
+4|Matériel|0|g|300|1
+4|Location sono|0|g|150|1
+4|Activité bonus|0|p|15|1
+5|Staff — rémunération (/jour)|1|s|100|d
+5|Staff — hébergement (/nuit)|1|s|25|n
+5|Staff — repas (/jour)|1|s|25|d
+5|Staff — transport|1|s|40|1
+6|Assurance séjour|1|p|5|1
+6|Frais administratifs|1|g|150|1
+6|Frais bancaires|1|g|60|1
+6|Frais de réservation|0|g|0|1
+6|Taxes|0|g|0|1
+6|Licences sportives|0|g|0|1
+6|Autres frais|0|g|0|1`.split("\n").map(x=>{const a=x.split("|"),z=isNaN(a[5]);return{c:+a[0],l:a[1],on:a[2]=="1",t:a[3],e:+a[4],r:"",q:z?1:+a[5],a:z?a[5]:null}});
+let S={name:"SURF CAMP HOSSEGOR",n:37,staff:2,days:5,nights:4,dest:"Atlantique",month:"Juin",cap:50,logC:5,imp:5,price:399,mc:20,lines:mkL()},SV=[];
+try{SV=JSON.parse(localStorage.getItem("sjp")||"[]")}catch(e){}
+const fe=(v,d=0)=>(isFinite(v)?v:0).toLocaleString("fr-FR",{maximumFractionDigits:d,minimumFractionDigits:d})+" €",pc=v=>isFinite(v)?v.toFixed(1)+" %":"—",cc=["#1f6feb","#0f9d6b","#e0a100","#8e5bd6","#e5484d","#12a4b6","#f08c3c","#98a2b3"],cl=o=>JSON.parse(JSON.stringify(o));
+const qty=(l,n,p=S)=>l.a=="d"?p.days:l.a=="n"?p.nights:l.a=="h"?p.nights*Math.ceil(n/Math.max(1,p.logC)):l.q,lb=(l,n,p=S)=>(l.t=="p"?n:l.t=="s"?p.staff:1)*qty(l,n,p)*l.e,dv=l=>l.r!==""&&!isNaN(+l.r);
+function calcS(n,p=S){const c=Array(7).fill(0);p.lines.forEach(l=>{if(l.on)c[l.c]+=dv(l)?+l.r:lb(l,n,p)});const sub=c.reduce((a,b)=>a+b,0),imp=sub*p.imp/100;return{c,sub,imp,tot:sub+imp}}
+function beS(p){for(let m=1;m<=1000;m++)if(p.price*m>=calcS(m,p).tot)return m;return null}
+const PF=[["name","Nom du projet","text"],["n","Participants","number"],["staff","Staff / accompagnateurs","number"],["days","Durée (jours)","sel"],["nights","Nuits","number"],["dest","Destination (zone)","dl"],["month","Mois","selm"],["cap","Capacité max (places)","number"],["logC","Pers. par logement","number"],["imp","Imprévus %","number"],["price","Prix de vente / pers. €","number"],["mc","Marge cible %","number"]];
+$("pf").innerHTML=PF.map(([k,l,t])=>`<label>${l}`+(t=="sel"?`<select id="f_${k}">${[4,5,6,7].map(d=>`<option>${d}</option>`).join("")}</select>`:t=="selm"?`<select id="f_${k}">${MO.map(m=>`<option>${m}</option>`).join("")}</select>`:t=="dl"?`<input id="f_${k}" list="zl"><datalist id="zl">${ZN.map(z=>`<option>${z}</option>`).join("")}</datalist>`:`<input id="f_${k}" type="${t}" step="any" style="width:${t=="text"?170:100}px">`)+"</label>").join("")+`<label>Participants (curseur 15→150)<input id="f_sl" type="range" min="15" max="150"></label>`;
+const sync=()=>{PF.forEach(([k])=>$("f_"+k).value=S[k]);$("f_sl").value=S.n};
+$("pf").oninput=e=>{const k=e.target.id.slice(2),v=e.target.value;if(k=="sl"){S.n=+v;$("f_n").value=v}else{S[k]=["name","dest","month"].includes(k)?v:+v;if(k=="days"){S.nights=S.days-1;$("f_nights").value=S.nights}if(k=="n")$("f_sl").value=S.n}if(["n","sl","days","nights","logC"].includes(k))rl();upd()};
+function rl(){let h="<tr><th></th><th>Poste</th><th>Tarif</th><th>Prix est. €</th><th>Qté</th><th>Total</th><th>Devis (total) €</th><th>Écart</th><th></th></tr>";
+CT.forEach((c,ci)=>{h+=`<tr><th colspan="9" style="background:var(--bg)">${c} <span id="cs${ci}" class="n"></span></th></tr>`;S.lines.forEach((l,i)=>{if(l.c!=ci)return;h+=`<tr data-i="${i}"><td><input type="checkbox" data-f="on" ${l.on?"checked":""}></td><td><input data-f="l" value="${l.l.replace(/"/g,"&quot;")}" style="width:200px"></td><td><select data-f="t">${Object.keys(TY).map(k=>`<option value="${k}" ${l.t==k?"selected":""}>${TY[k]}</option>`).join("")}</select></td><td><input type="number" step="any" data-f="e" value="${l.e}" style="width:72px"></td><td><input type="number" step="any" data-f="q" value="${qty(l,S.n)}" style="width:52px"></td><td id="lt${i}"></td><td><input type="number" step="any" data-f="r" value="${l.r}" style="width:80px"></td><td id="le${i}" class="n"></td><td><button data-x="${i}">✕</button></td></tr>`})});$("tl").innerHTML=h}
+$("tl").oninput=e=>{const f=e.target.dataset.f,i=e.target.closest("tr")?.dataset.i;if(!f)return;const l=S.lines[i],v=e.target.value;if(f=="on")l.on=e.target.checked;else if(f=="l"||f=="t"||f=="r")l[f]=v;else if(f=="q"){l.q=+v;l.a=null}else l.e=+v;upd()};
+$("tl").onclick=e=>{const x=e.target.dataset.x;if(x!=null){S.lines.splice(+x,1);rl();upd()}};
+$("ab").onclick=()=>{S.lines.push({c:+$("ac").value,l:"Nouvelle ligne",on:1,t:"g",e:0,r:"",q:1,a:null});rl();upd()};
+const CH={},mk=(id,cfg)=>CH[id]=new Chart($(id),cfg),ns=[];for(let n=15;n<=150;n+=5)ns.push(n);
+const LB=[...CT,"Imprévus"],opt0={plugins:{legend:{display:false}}};
+mk("sp",{type:"doughnut",data:{labels:LB,datasets:[{data:[],backgroundColor:cc}]},options:{plugins:{legend:{position:"right",labels:{boxWidth:8,font:{size:10}}}}}});
+mk("sb",{type:"bar",data:{labels:LB,datasets:[{data:[],backgroundColor:cc}]},options:{...opt0,scales:{y:{title:{display:true,text:"€"}}}}});
+mk("sw",{type:"bar",data:{labels:["CA",...LB,"Marge"],datasets:[{data:[],backgroundColor:[]}]},options:{...opt0,scales:{x:{ticks:{font:{size:9}}}}}});
+mk("sg",{type:"doughnut",data:{labels:["Rempli","Libre"],datasets:[{data:[],backgroundColor:["#0f9d6b","#98a2b3"]}]},options:{circumference:180,rotation:-90,plugins:{legend:{display:false}}}});
+mk("sc",{type:"line",data:{labels:ns,datasets:[{label:"Coût / pers.",data:[],borderColor:cc[4],pointRadius:0},{label:"Prix de vente",data:[],borderColor:cc[1],borderDash:[5,4],pointRadius:0}]},options:{scales:{y:{title:{display:true,text:"€ / participant"}}}}});
+mk("sm",{type:"line",data:{labels:ns,datasets:[{label:"CA",data:[],borderColor:cc[0],pointRadius:0},{label:"Marge",data:[],borderColor:cc[1],pointRadius:0}]},options:{scales:{y:{title:{display:true,text:"€"}}}}});
+function upd(){const n=S.n,r=calcS(n),pp=r.tot/n,CA=S.price*n,mg=CA-r.tot,be=beS(S),fill=n/S.cap*100;
+S.lines.forEach((l,i)=>{const b=lb(l,n);$("lt"+i).textContent=l.on?fe(dv(l)?+l.r:b):"—";$("le"+i).textContent=l.on&&dv(l)?`${fe(+l.r-b)} (${b?((+l.r-b)/b*100).toFixed(0):0} %)`:""});
+r.c.forEach((v,i)=>$("cs"+i).textContent="· "+fe(v));
+$("sk").innerHTML=[["Coût total",fe(r.tot)],["Coût / participant",fe(pp,1)],["Coût / jour",fe(r.tot/S.days)],["Coût / jour / participant",fe(pp/S.days,1)],["Prix de vente / pers.",fe(S.price)],["Chiffre d'affaires",fe(CA)],["Marge brute",fe(mg)+" · "+pc(mg/CA*100)],["Marge / pers. · / jour",fe(mg/n,1)+" · "+fe(mg/S.days)],["Prix pour "+S.mc+" % de marge",fe(pp/(1-S.mc/100),1)],["SEUIL DE RENTABILITÉ",be?be+" participants":"non atteint (≤ 1000)"],["Au-dessus du seuil",be?`${n-be} participants · marge ${fe(mg)}`:"—"]].map(k=>`<div class="k"><small>${k[0]}</small><b style="font-size:17px">${k[1]}</b></div>`).join("");
+const all=[...r.c,r.imp];CH.sp.data.datasets[0].data=all;CH.sb.data.datasets[0].data=all;
+let run=CA;const w=[[0,CA]];all.forEach(v=>{w.push([run-v,run]);run-=v});w.push([Math.min(0,run),Math.max(0,run)]);CH.sw.data.datasets[0].data=w;CH.sw.data.datasets[0].backgroundColor=[cc[0],...all.map(()=>cc[4]),run>=0?cc[1]:cc[4]];
+CH.sg.data.datasets[0].data=[Math.min(fill,100),Math.max(0,100-fill)];$("sgt").textContent=`${n} / ${S.cap} places = ${pc(fill)} · CA ${fe(CA)} · résultat ${fe(mg)}`;
+const tt=ns.map(m=>calcS(m).tot);CH.sc.data.datasets[0].data=ns.map((m,i)=>+(tt[i]/m).toFixed(1));CH.sc.data.datasets[1].data=ns.map(()=>S.price);CH.sm.data.datasets[0].data=ns.map(m=>S.price*m);CH.sm.data.datasets[1].data=ns.map((m,i)=>S.price*m-tt[i]);
+Object.values(CH).forEach(c=>c.update("none"));
+$("t1").innerHTML="<tr><th>Marge cible</th><th>Prix de vente</th><th>Marge / pers.</th></tr>"+[10,15,20,25,30,40].map(m=>`<tr><td>${m} %</td><td>${fe(pp/(1-m/100),1)}</td><td>${fe(pp/(1-m/100)-pp,1)}</td></tr>`).join("");
+$("t2").innerHTML="<tr><th>Scénario</th><th>Particip.</th><th>Remplissage</th><th>CA</th><th>Coûts</th><th>Coût/pers.</th><th>Marge</th><th>Marge %</th></tr>"+[["Bas",Math.round(S.cap*.5)],["Central",n],["Haut",S.cap]].map(([a,m])=>{const t=calcS(m).tot,c=S.price*m;return`<tr><td>${a}</td><td>${m}</td><td>${pc(m/S.cap*100)}</td><td>${fe(c)}</td><td>${fe(t)}</td><td>${fe(t/m,1)}</td><td>${fe(c-t)}</td><td>${pc((c-t)/c*100)}</td></tr>`}).join("");
+const on=S.lines.filter(l=>l.on);
+$("x1").value=`PROJET : ${S.name}\n${n} PARTICIPANTS · ${S.days} JOURS / ${S.nights} NUITS · ${S.dest} · ${S.month}\nComprend : ${on.map(l=>l.l).join(", ")}\nCoût total : ${fe(r.tot)} · Coût/personne : ${fe(pp,1)}\nPrix de vente simulé : ${fe(S.price)} · CA : ${fe(CA)}\nMarge : ${fe(mg)} · Taux de marge : ${pc(mg/CA*100)}\nHypothèse : prix de départ arbitraires sauf modification`;
+$("x2").value="catégorie;poste;tarif;prix estimé;quantité;total;devis\n"+on.map(l=>[CT[l.c],l.l,TY[l.t],l.e,qty(l,n),lb(l,n),l.r].join(";")).join("\n");
+cmpR()}
+const cp=id=>()=>{try{navigator.clipboard.writeText($(id).value)}catch(e){$(id).select()}};$("c1").onclick=cp("x1");$("c2").onclick=cp("x2");
+const sv=()=>{SV.push(cl(S));try{localStorage.setItem("sjp",JSON.stringify(SV))}catch(e){}cmpR()};
+$("bs").onclick=sv;$("bd").onclick=()=>{sv();S.name+=" (copie)";sync();upd()};
+function cmpR(){const cols=[{...cl(S),name:S.name+" (en cours)"},...SV],R=["Durée (jours)","Participants","Prix de vente / pers.","Coût total","Coût / pers.","CA","Marge €","Marge %","Seuil (participants)",...CT,"Imprévus"];
+const vals=cols.map(p=>{const r=calcS(p.n,p),CA=p.price*p.n,b=beS(p);return[p.days,p.n,fe(p.price),fe(r.tot),fe(r.tot/p.n,1),fe(CA),fe(CA-r.tot),pc((CA-r.tot)/CA*100),b||"—",...r.c.map(v=>fe(v)),fe(r.imp)]});
+$("tcm").innerHTML="<tr><th>Indicateur</th>"+cols.map((p,i)=>`<th>${p.name}${i?`<br><button data-l="${i-1}">Charger</button> <button data-d="${i-1}">✕</button>`:""}</th>`).join("")+"</tr>"+R.map((r,j)=>`<tr><td>${r}</td>${vals.map(v=>`<td>${v[j]}</td>`).join("")}</tr>`).join("")}
+$("tcm").onclick=e=>{const d=e.target.dataset;if(d.l!=null){S=cl(SV[+d.l]);sync();rl();upd()}if(d.d!=null){SV.splice(+d.d,1);try{localStorage.setItem("sjp",JSON.stringify(SV))}catch(x){}cmpR()}};
+$("ac").innerHTML=CT.map((c,i)=>`<option value="${i}">${c}</option>`).join("");sync();rl();upd();
+</script></body></html>
